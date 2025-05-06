@@ -1,21 +1,15 @@
-from fastapi import FastAPI, Depends
-from sqlalchemy.orm import Session
-from database import engine, SessionLocal
+from fastapi import FastAPI
 import models
+from database import engine
+from resources import movies, likes
 
-# Create database tables
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-# Dependency to get DB session
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
+app.include_router(movies.router)  
+app.include_router(likes.router)
 
 @app.get("/")
 def read_root():
