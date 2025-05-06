@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from datetime import datetime
 import models
 from database import get_db, engine  # Import engine from database
-from resources import users, reviews, movies
+from resources import users, reviews, movies, likes
 from models import User
 from auth import get_password_hash
 
@@ -15,6 +15,7 @@ app = FastAPI()
 app.include_router(users.router)
 app.include_router(reviews.router)
 app.include_router(movies.router)
+app.include_router(likes.router)
 
 # Create admin user if it does not exist
 def create_admin_user():
@@ -35,9 +36,8 @@ def create_admin_user():
         db.refresh(new_admin)
         print("Admin user created successfully")
 
-# Run this once when the server starts
-create_admin_user()
 
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to the Movie Review API"}
+
+
+
+
