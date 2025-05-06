@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from datetime import datetime
 import models
 from database import get_db, engine  # Import engine from database
-from resources import users
+from resources import users, reviews, movies
 from models import User
 from auth import get_password_hash
 
@@ -13,6 +13,8 @@ app = FastAPI()
 
 # Include user routes
 app.include_router(users.router)
+app.include_router(reviews.router)
+app.include_router(movies.router)
 
 # Create admin user if it does not exist
 def create_admin_user():

@@ -18,9 +18,9 @@ SECRET_KEY = "your_secret_key_here"
 ALGORITHM = "HS256"
 
 # Dependency to get the current user
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/users/login")  # Define OAuth2PasswordBearer
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/users/login") 
 
-def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):  # Use oauth2_scheme
+def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):  
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
