@@ -5,19 +5,20 @@ from database import get_db, engine  # Import engine from database
 from resources import users, reviews, movies, likes
 from models import User
 from auth import get_password_hash
+from sqlalchemy.orm import Session
 
 # Create database tables
-models.Base.metadata.create_all(bind=engine)  # Use engine from database
+models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-# Include user routes
+# Include routers
 app.include_router(users.router)
 app.include_router(reviews.router)
 app.include_router(movies.router)
 app.include_router(likes.router)
 
-# Create admin user if it does not exist
+# Admin creation logic
 def create_admin_user():
     db: Session = next(get_db())
     admin_email = "admin142@gmail.com"
@@ -34,10 +35,15 @@ def create_admin_user():
         db.add(new_admin)
         db.commit()
         db.refresh(new_admin)
-        print("Admin user created successfully")
+        print("✅ Admin user created successfully")
+    else:
+        print("🔍 Admin user already exists")
 
 
+@app.on_event("startup")
+def startup_event():
+    create_admin_user()
 
-
-
-
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to the Movie Review API"}
