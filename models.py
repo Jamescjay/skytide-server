@@ -60,9 +60,21 @@ class Like(Base):
     like = Column(Integer)
     created_at = Column(TIMESTAMP)
 
-    # Relationships
     user = relationship('User', back_populates='likes')
     movie = relationship('Movie', back_populates='likes')
+    comment_obj = relationship('LikeComment', back_populates='like', uselist=False)
+
+
+class LikeComment(Base):
+    __tablename__ = 'like_comments'
+
+    id = Column(Integer, primary_key=True, index=True)
+    like_id = Column(Integer, ForeignKey('likes.id'), nullable=False)
+    comment = Column(String, nullable=True)
+    created_at = Column(TIMESTAMP)
+
+    like = relationship('Like', back_populates='comment_obj')
+
 
 
 class Follow(Base):
