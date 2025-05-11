@@ -30,7 +30,7 @@ class MovieCreate(MovieBase):
 
 class MovieResponse(MovieBase):
     id: int
-    created_at: Optional[datetime]
+    created_at: datetime
 
     class Config:
         orm_mode = True

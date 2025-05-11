@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from datetime import datetime
 import models
 from database import get_db, engine  # Import engine from database
-from resources import users, reviews, movies, likes
+from resources import users, reviews, movies, likes, follows
 from models import User
 from auth import get_password_hash
 from sqlalchemy.orm import Session
@@ -16,6 +16,7 @@ app = FastAPI()
 app.include_router(users.router)
 app.include_router(reviews.router)
 app.include_router(movies.router)
+app.include_router(follows.router)
 app.include_router(likes.router)
 
 # Admin creation logic
